@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:olx_mobx/components/error_box.dart';
 import 'package:olx_mobx/screens/signup/signup_screens.dart';
+import 'package:olx_mobx/stores/login_stores.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key key}) : super(key: key);
+  // const LoginScreen({Key key}) : super(key: key);
+
+  final LoginStores loginStore = LoginStores();
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +30,14 @@ class LoginScreen extends StatelessWidget {
                       Text(
                         "Acessar com E-mail",
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16, color: Colors.grey[900]),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey[900],
+                        ),
                       ),
+                      Observer(builder: (_) {
+                        return ErrorBox(loginStore.error);
+                      }),
                       Padding(
                         padding: const EdgeInsets.only(left: 3, bottom: 4),
                         child: Text(
@@ -37,11 +48,17 @@ class LoginScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      TextField(
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(), isDense: true),
-                        keyboardType: TextInputType.emailAddress,
-                      ),
+                      Observer(builder: (_) {
+                        return TextField(
+                          enabled: !loginStore.loading,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              isDense: true,
+                              errorText: loginStore.emailError),
+                          keyboardType: TextInputType.emailAddress,
+                          onChanged: loginStore.setEmail,
+                        );
+                      }),
                       const SizedBox(
                         height: 16,
                       ),
@@ -69,27 +86,38 @@ class LoginScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      TextField(
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(), isDense: true),
-                        obscureText: true,
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Container(
-                        height: 40,
-                        margin: EdgeInsets.only(top: 20, bottom: 12),
-                        child: RaisedButton(
-                          onPressed: () {},
-                          color: Colors.orange,
-                          child: Text("ENTRAR"),
-                          textColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                        ),
-                      ),
+                      Observer(builder: (_) {
+                        return TextField(
+                          enabled: !loginStore.loading,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              isDense: true,
+                              errorText: loginStore.passwordError),
+                          obscureText: true,
+                          onChanged: loginStore.setPassoword,
+                        );
+                      }),
+                      Observer(builder: (_) {
+                        return Container(
+                          height: 40,
+                          margin: EdgeInsets.only(top: 20, bottom: 12),
+                          child: RaisedButton(
+                            onPressed: loginStore.loginPressed,
+                            color: Colors.orange,
+                            disabledColor: Colors.orange.withAlpha(120),
+                            child: loginStore.loading
+                                ? CircularProgressIndicator(
+                                    valueColor:
+                                        AlwaysStoppedAnimation(Colors.white),
+                                  )
+                                : Text("ENTRAR"),
+                            textColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                          ),
+                        );
+                      }),
                       Divider(color: Colors.black),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 8),

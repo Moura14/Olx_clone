@@ -107,7 +107,12 @@ abstract class _SignUpStoreBase with Store {
   Future<void> _signUp() async {
     loading = true;
 
-    final user = User(name, email, phone, password);
+    final user = User(
+      name,
+      email,
+      phone,
+      password,
+    );
     try {
       await UserRepository().signUp(user);
     } catch (e) {
