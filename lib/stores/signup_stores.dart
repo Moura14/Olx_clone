@@ -1,7 +1,9 @@
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:olx_mobx/helpers/extensions.dart';
 import 'package:olx_mobx/models/user.dart';
 import 'package:olx_mobx/repositories/user.repositorie.dart';
+import 'package:olx_mobx/stores/user_menage_stores.dart';
 part 'signup_stores.g.dart';
 
 class SignUpStore = _SignUpStoreBase with _$SignUpStore;
@@ -107,14 +109,11 @@ abstract class _SignUpStoreBase with Store {
   Future<void> _signUp() async {
     loading = true;
 
-    final user = User(
-      name,
-      email,
-      phone,
-      password,
-    );
+    final user =
+        User(name: name, email: email, phone: phone, password: password);
     try {
       await UserRepository().signUp(user);
+      GetIt.I<UserMenageStore>().setUser(user);
     } catch (e) {
       error = e;
     }

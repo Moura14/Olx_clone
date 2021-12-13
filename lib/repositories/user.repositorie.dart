@@ -30,8 +30,27 @@ class UserRepository {
     }
   }
 
+  Future<User> currentUser() async {
+    final parseUser = await ParseUser.currentUser();
+    if (parseUser != null) {
+      final response =
+          await ParseUser.getCurrentUserFromServer(parseUser.sessionToken);
+      if (response.success) {
+        return mapParseToUser(response.result);
+      } else {
+        await parseUser.logout();
+      }
+    }
+    return null;
+  }
+
   User mapParseToUser(ParseUser parseUser) {
-    return User(parseUser.objectId, parseUser.get(keyUserName),
-        parseUser.get(keyUserEmail), parseUser.get(keyUserPhone));
+    return User(
+        id: parseUser.objectId,
+        name: parseUser.get(keyUserName),
+        email: parseUser.get(keyUserEmail),
+        phone: parseUser.get(keyUserPhone),
+        userType: UserType.values[parseUser.get(keyUserType)],
+        createdAt: parseUser.get(keyUserCreatedAt));
   }
 }
