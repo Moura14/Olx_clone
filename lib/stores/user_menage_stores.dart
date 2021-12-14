@@ -6,7 +6,7 @@ part 'user_menage_stores.g.dart';
 class UserMenageStore = _UserMenageStoreBase with _$UserMenageStore;
 
 abstract class _UserMenageStoreBase with Store {
-  _UserMenageStore() {
+  _UserMenageStoreBase() {
     _getCurrentUser();
   }
 
