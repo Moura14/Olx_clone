@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:olx_mobx/components/drawer/custom_drawer.dart';
 import 'package:olx_mobx/screens/create/components/images_field.dart';
+import 'package:olx_mobx/stores/create_stores.dart';
 
 class CreateScreens extends StatelessWidget {
-  const CreateScreens({Key key}) : super(key: key);
+  // const CreateScreens({Key key}) : super(key: key);
+
+  final CreateStores createStores = CreateStores();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,7 @@ class CreateScreens extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ImagesField(),
+            ImagesField(createStores),
             TextFormField(
                 decoration: InputDecoration(
                     labelText: "Título *",

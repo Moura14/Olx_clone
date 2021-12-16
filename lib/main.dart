@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:olx_mobx/repositories/category_respository.dart';
 import 'package:olx_mobx/screens/base/base_screen.dart';
 import 'package:olx_mobx/stores/page_store.dart';
 import 'package:olx_mobx/stores/user_menage_stores.dart';
@@ -23,6 +24,9 @@ Future<void> initializeParse() async {
       clientKey: "DWGpSrVo203jah19aiN3YIOuYIQUScMKgLzYo1Cf",
       autoSendSessionId: true,
       debug: true);
+
+  final categories = await CategoryRepository().getList();
+  print(categories);
 }
 
 class MyApp extends StatelessWidget {
