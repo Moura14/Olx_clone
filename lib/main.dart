@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:olx_mobx/repositories/category_respository.dart';
+import 'package:olx_mobx/repositories/cep_repository.dart';
+import 'package:olx_mobx/repositories/ibge_repository.dart';
 import 'package:olx_mobx/screens/base/base_screen.dart';
 import 'package:olx_mobx/screens/category/category_screens.dart';
 import 'package:olx_mobx/stores/category_store.dart';

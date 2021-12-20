@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:olx_mobx/components/drawer/custom_drawer.dart';
 import 'package:olx_mobx/screens/create/components/category_field.dart';
+import 'package:olx_mobx/screens/create/components/cep_field.dart';
 import 'package:olx_mobx/screens/create/components/images_field.dart';
 import 'package:olx_mobx/stores/create_stores.dart';
 
@@ -23,43 +24,46 @@ class CreateScreens extends StatelessWidget {
         title: Text('Criar Anúncio'),
         centerTitle: true,
       ),
-      body: Card(
-        clipBehavior: Clip.antiAlias,
-        margin: EdgeInsets.symmetric(horizontal: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        elevation: 0,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ImagesField(createStores),
-            TextFormField(
+      body: SingleChildScrollView(
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          margin: EdgeInsets.symmetric(horizontal: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          elevation: 0,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ImagesField(createStores),
+              TextFormField(
+                  decoration: InputDecoration(
+                      labelText: "Título *",
+                      labelStyle: labelStyle,
+                      contentPadding: contentPadding)),
+              TextFormField(
                 decoration: InputDecoration(
-                    labelText: "Título *",
+                    labelText: "Descrição *",
                     labelStyle: labelStyle,
-                    contentPadding: contentPadding)),
-            TextFormField(
-              decoration: InputDecoration(
-                  labelText: "Descrição *",
-                  labelStyle: labelStyle,
-                  contentPadding: contentPadding),
-              maxLines: null,
-            ),
-            CategoryField(createStores),
-            TextFormField(
-              decoration: InputDecoration(
-                  labelText: "Preço *",
-                  labelStyle: labelStyle,
-                  contentPadding: contentPadding,
-                  prefixText: "R\$"),
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                RealInputFormatter()
-              ],
-            )
-          ],
+                    contentPadding: contentPadding),
+                maxLines: null,
+              ),
+              CategoryField(createStores),
+              CepField(),
+              TextFormField(
+                decoration: InputDecoration(
+                    labelText: "Preço *",
+                    labelStyle: labelStyle,
+                    contentPadding: contentPadding,
+                    prefixText: "R\$"),
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  RealInputFormatter()
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
