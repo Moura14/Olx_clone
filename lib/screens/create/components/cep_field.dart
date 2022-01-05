@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:olx_mobx/stores/cep_stores.dart';
+import 'package:olx_mobx/stores/create_stores.dart';
 
 class CepField extends StatelessWidget {
-  final CepStore cepStore = CepStore();
+  CepField(this.createStores) : cepStore = createStores.cepStore;
+
+  final CreateStores createStores;
+  final CepStore cepStore;
   //const CepField({Key key}) : super(key: key);
 
   @override
@@ -13,21 +17,24 @@ class CepField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TextFormField(
-          onChanged: cepStore.setCep,
-          keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            CepInputFormatter()
-          ],
-          decoration: InputDecoration(
-              labelText: "CEP *",
-              labelStyle: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  color: Colors.grey,
-                  fontSize: 18),
-              contentPadding: EdgeInsets.fromLTRB(16, 10, 12, 10)),
-        ),
+        Observer(builder: (_) {
+          return TextFormField(
+            onChanged: cepStore.setCep,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              CepInputFormatter()
+            ],
+            decoration: InputDecoration(
+                errorText: createStores.addressError,
+                labelText: "CEP *",
+                labelStyle: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    color: Colors.grey,
+                    fontSize: 18),
+                contentPadding: EdgeInsets.fromLTRB(16, 10, 12, 10)),
+          );
+        }),
         Observer(builder: (_) {
           if (cepStore.adress == null &&
               cepStore.error == null &&

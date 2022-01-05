@@ -62,33 +62,41 @@ class CreateScreens extends StatelessWidget {
                     );
                   }),
                   CategoryField(createStores),
-                  CepField(),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        labelText: "Preço *",
-                        labelStyle: labelStyle,
-                        contentPadding: contentPadding,
-                        prefixText: "R\$"),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      RealInputFormatter()
-                    ],
-                  ),
+                  CepField(createStores),
+                  Observer(builder: (_) {
+                    return TextFormField(
+                      onChanged: createStores.setPrice,
+                      decoration: InputDecoration(
+                          labelText: "Preço *",
+                          labelStyle: labelStyle,
+                          contentPadding: contentPadding,
+                          prefixText: "R\$",
+                          errorText: createStores.priceError),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        RealInputFormatter()
+                      ],
+                    );
+                  }),
                   HidePhoneField(createStores),
-                  SizedBox(
-                    height: 50,
-                    child: RaisedButton(
-                      child: Text(
-                        "Enviar",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      textColor: Colors.white,
-                      color: Colors.orange,
-                      disabledColor: Colors.orange.withAlpha(120),
-                      onPressed: null,
-                    ),
-                  )
+                  Observer(builder: (_) {
+                    return SizedBox(
+                        height: 50,
+                        child: GestureDetector(
+                          onTap: createStores.invalidSendPressed,
+                          child: RaisedButton(
+                            child: Text(
+                              "Enviar",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            textColor: Colors.white,
+                            color: Colors.orange,
+                            disabledColor: Colors.orange.withAlpha(120),
+                            onPressed: createStores.sendPressed,
+                          ),
+                        ));
+                  })
                 ],
               ),
             ),

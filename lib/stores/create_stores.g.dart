@@ -23,6 +23,26 @@ mixin _$CreateStores on _CreateStoresBase, Store {
       (_$titleValidComputed ??= Computed<bool>(() => super.titleValid,
               name: '_CreateStoresBase.titleValid'))
           .value;
+  Computed<bool> _$categoryValidComputed;
+
+  @override
+  bool get categoryValid =>
+      (_$categoryValidComputed ??= Computed<bool>(() => super.categoryValid,
+              name: '_CreateStoresBase.categoryValid'))
+          .value;
+  Computed<Adress> _$adressComputed;
+
+  @override
+  Adress get adress =>
+      (_$adressComputed ??= Computed<Adress>(() => super.adress,
+              name: '_CreateStoresBase.adress'))
+          .value;
+  Computed<num> _$priceComputed;
+
+  @override
+  num get price => (_$priceComputed ??=
+          Computed<num>(() => super.price, name: '_CreateStoresBase.price'))
+      .value;
   Computed<bool> _$descriptionValidComputed;
 
   @override
@@ -30,6 +50,20 @@ mixin _$CreateStores on _CreateStoresBase, Store {
           () => super.descriptionValid,
           name: '_CreateStoresBase.descriptionValid'))
       .value;
+  Computed<bool> _$formValidComputed;
+
+  @override
+  bool get formValid =>
+      (_$formValidComputed ??= Computed<bool>(() => super.formValid,
+              name: '_CreateStoresBase.formValid'))
+          .value;
+  Computed<Function> _$sendPressedComputed;
+
+  @override
+  Function get sendPressed =>
+      (_$sendPressedComputed ??= Computed<Function>(() => super.sendPressed,
+              name: '_CreateStoresBase.sendPressed'))
+          .value;
 
   final _$titleAtom = Atom(name: '_CreateStoresBase.title');
 
@@ -58,6 +92,21 @@ mixin _$CreateStores on _CreateStoresBase, Store {
   set description(String value) {
     _$descriptionAtom.reportWrite(value, super.description, () {
       super.description = value;
+    });
+  }
+
+  final _$priceTextAtom = Atom(name: '_CreateStoresBase.priceText');
+
+  @override
+  String get priceText {
+    _$priceTextAtom.reportRead();
+    return super.priceText;
+  }
+
+  @override
+  set priceText(String value) {
+    _$priceTextAtom.reportWrite(value, super.priceText, () {
+      super.priceText = value;
     });
   }
 
@@ -91,6 +140,21 @@ mixin _$CreateStores on _CreateStoresBase, Store {
     });
   }
 
+  final _$showErrorsAtom = Atom(name: '_CreateStoresBase.showErrors');
+
+  @override
+  bool get showErrors {
+    _$showErrorsAtom.reportRead();
+    return super.showErrors;
+  }
+
+  @override
+  set showErrors(bool value) {
+    _$showErrorsAtom.reportWrite(value, super.showErrors, () {
+      super.showErrors = value;
+    });
+  }
+
   final _$_CreateStoresBaseActionController =
       ActionController(name: '_CreateStoresBase');
 
@@ -111,6 +175,17 @@ mixin _$CreateStores on _CreateStoresBase, Store {
         name: '_CreateStoresBase.setDescription');
     try {
       return super.setDescription(value);
+    } finally {
+      _$_CreateStoresBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setPrice(String value) {
+    final _$actionInfo = _$_CreateStoresBaseActionController.startAction(
+        name: '_CreateStoresBase.setPrice');
+    try {
+      return super.setPrice(value);
     } finally {
       _$_CreateStoresBaseActionController.endAction(_$actionInfo);
     }
@@ -139,15 +214,33 @@ mixin _$CreateStores on _CreateStoresBase, Store {
   }
 
   @override
+  void invalidSendPressed() {
+    final _$actionInfo = _$_CreateStoresBaseActionController.startAction(
+        name: '_CreateStoresBase.invalidSendPressed');
+    try {
+      return super.invalidSendPressed();
+    } finally {
+      _$_CreateStoresBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 title: ${title},
 description: ${description},
+priceText: ${priceText},
 category: ${category},
 hidePhone: ${hidePhone},
+showErrors: ${showErrors},
 ImagesValid: ${ImagesValid},
 titleValid: ${titleValid},
-descriptionValid: ${descriptionValid}
+categoryValid: ${categoryValid},
+adress: ${adress},
+price: ${price},
+descriptionValid: ${descriptionValid},
+formValid: ${formValid},
+sendPressed: ${sendPressed}
     ''';
   }
 }
