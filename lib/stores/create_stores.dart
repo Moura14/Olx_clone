@@ -1,7 +1,11 @@
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:olx_mobx/models/ad.dart';
 import 'package:olx_mobx/models/adress.dart';
 import 'package:olx_mobx/models/category.dart';
+import 'package:olx_mobx/repositories/add_repository.dart';
 import 'package:olx_mobx/stores/cep_stores.dart';
+import 'package:olx_mobx/stores/user_menage_stores.dart';
 part 'create_stores.g.dart';
 
 class CreateStores = _CreateStoresBase with _$CreateStores;
@@ -121,12 +125,38 @@ abstract class _CreateStoresBase with Store {
 
   @computed
   Function get sendPressed => formValid ? _send : null;
-
   @observable
   bool showErrors = false;
 
   @action
   void invalidSendPressed() => showErrors = true;
 
-  void _send() {}
+  @observable
+  bool loading = false;
+
+  @observable
+  String error;
+
+  @observable
+  Ad savedAd;
+
+  @action
+  Future<void> _send() async {
+    final ad = Ad();
+    ad.title = title;
+    ad.description = description;
+    ad.category = category;
+    ad.price = price;
+    ad.images = images;
+    ad.adress = adress;
+    ad.user = GetIt.I<UserMenageStore>().user;
+
+    loading = true;
+    try {
+      savedAd = await AdRepository().save(ad);
+    } catch (e) {
+      error = e;
+    }
+    loading = false;
+  }
 }

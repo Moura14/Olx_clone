@@ -155,6 +155,58 @@ mixin _$CreateStores on _CreateStoresBase, Store {
     });
   }
 
+  final _$loadingAtom = Atom(name: '_CreateStoresBase.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$errorAtom = Atom(name: '_CreateStoresBase.error');
+
+  @override
+  String get error {
+    _$errorAtom.reportRead();
+    return super.error;
+  }
+
+  @override
+  set error(String value) {
+    _$errorAtom.reportWrite(value, super.error, () {
+      super.error = value;
+    });
+  }
+
+  final _$savedAdAtom = Atom(name: '_CreateStoresBase.savedAd');
+
+  @override
+  Ad get savedAd {
+    _$savedAdAtom.reportRead();
+    return super.savedAd;
+  }
+
+  @override
+  set savedAd(Ad value) {
+    _$savedAdAtom.reportWrite(value, super.savedAd, () {
+      super.savedAd = value;
+    });
+  }
+
+  final _$_sendAsyncAction = AsyncAction('_CreateStoresBase._send');
+
+  @override
+  Future<void> _send() {
+    return _$_sendAsyncAction.run(() => super._send());
+  }
+
   final _$_CreateStoresBaseActionController =
       ActionController(name: '_CreateStoresBase');
 
@@ -233,6 +285,9 @@ priceText: ${priceText},
 category: ${category},
 hidePhone: ${hidePhone},
 showErrors: ${showErrors},
+loading: ${loading},
+error: ${error},
+savedAd: ${savedAd},
 ImagesValid: ${ImagesValid},
 titleValid: ${titleValid},
 categoryValid: ${categoryValid},
