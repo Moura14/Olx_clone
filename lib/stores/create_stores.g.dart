@@ -188,13 +188,13 @@ mixin _$CreateStores on _CreateStoresBase, Store {
   final _$savedAdAtom = Atom(name: '_CreateStoresBase.savedAd');
 
   @override
-  Ad get savedAd {
+  bool get savedAd {
     _$savedAdAtom.reportRead();
     return super.savedAd;
   }
 
   @override
-  set savedAd(Ad value) {
+  set savedAd(bool value) {
     _$savedAdAtom.reportWrite(value, super.savedAd, () {
       super.savedAd = value;
     });

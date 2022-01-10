@@ -6,6 +6,7 @@ import 'package:olx_mobx/repositories/ibge_repository.dart';
 import 'package:olx_mobx/screens/base/base_screen.dart';
 import 'package:olx_mobx/screens/category/category_screens.dart';
 import 'package:olx_mobx/stores/category_store.dart';
+import 'package:olx_mobx/stores/home_stores.dart';
 import 'package:olx_mobx/stores/page_store.dart';
 import 'package:olx_mobx/stores/user_menage_stores.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
@@ -19,6 +20,7 @@ void main() async {
 
 void setupLocators() {
   GetIt.I.registerSingleton(PageStore());
+  GetIt.I.registerSingleton(HomeStore());
   GetIt.I.registerSingleton(UserMenageStore());
   GetIt.I.registerSingleton(CategoryStore());
 }
