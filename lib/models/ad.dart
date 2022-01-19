@@ -14,7 +14,7 @@ class Ad {
     id = object.objectId;
     title = object.get<String>(keyAdTitle);
     description = object.get<String>(keyAdDescription);
-    images = object.get<List>(keyAdImages).map((e) => e.url);
+    images = object.get<List>(keyAdImages).map((e) => e.url).toList();
     hidePhone = object.get<bool>(keyAdHidePhone);
     price = object.get<num>(keyAdPrice);
     created = object.createdAt;
@@ -24,9 +24,9 @@ class Ad {
         cep: object.get<String>(keyAdPostalCode),
         uf: UF(initials: object.get<String>(keyAdFederativeUnit)));
     view = object.get<int>(keyAdViews, defaultValue: 0);
-    user = UserRepository().mapParseToUser(object.get<ParseUser>(keyAdOwner));
     category = Category.fromParse(object.get<ParseObject>(keyAdCategory));
     status = AdStatus.values[object.get<int>(keyAdStatus)];
+    user = UserRepository().mapParseToUser(object.get<ParseUser>(keyAdOwner));
   }
 
   Ad();
