@@ -10,7 +10,6 @@ part of 'signup_stores.dart';
 
 mixin _$SignUpStore on _SignUpStoreBase, Store {
   Computed<bool> _$nameValidComputed;
-
   @override
   bool get nameValid =>
       (_$nameValidComputed ??= Computed<bool>(() => super.nameValid,

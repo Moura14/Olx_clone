@@ -11,12 +11,13 @@ import 'package:path/path.dart' as path;
 
 class AdRepository {
   Future<List<Ad>> getHomeAdList(
-      {FilterStores filter, String search, Category category}) async {
+      {FilterStores filter, String search, Category category, int page}) async {
     final queryBuilder = QueryBuilder<ParseObject>(ParseObject(keyAdTable));
 
     queryBuilder.includeObject([keyAdOwner, keyAdCategory]);
 
-    queryBuilder.setLimit(20);
+    queryBuilder.setAmountToSkip(page * 10);
+    queryBuilder.setLimit(10);
 
     queryBuilder.whereEqualTo(keyAdStatus, AdStatus.ACTIVE.index);
 
@@ -46,7 +47,7 @@ class AdRepository {
     }
 
     if (filter.maxPrice != null && filter.maxPrice > 0) {
-      queryBuilder.whereLessThanOrEqualTo(keyAdPrice, filter.minPrice);
+      queryBuilder.whereLessThanOrEqualTo(keyAdPrice, filter.maxPrice);
     }
 
     if (filter.vendorType != null &&
