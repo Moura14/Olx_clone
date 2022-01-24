@@ -14,6 +14,7 @@ class SignUpScreens extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.purple,
         title: Text("Cadastrar"),
         centerTitle: true,
       ),
@@ -76,7 +77,7 @@ class SignUpScreens extends StatelessWidget {
                               errorText: signUpStore.phoneError),
                           keyboardType: TextInputType.phone,
                           inputFormatters: [
-                            WhitelistingTextInputFormatter.digitsOnly,
+                            FilteringTextInputFormatter.digitsOnly,
                             TelefoneInputFormatter()
                           ],
                           onChanged: signUpStore.setPhone,
