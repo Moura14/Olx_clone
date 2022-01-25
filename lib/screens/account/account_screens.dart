@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:olx_mobx/components/drawer/custom_drawer.dart';
+import 'package:olx_mobx/screens/myads/myads_screens.dart';
 import 'package:olx_mobx/stores/user_menage_stores.dart';
 
 class AccountScreens extends StatelessWidget {
@@ -31,6 +32,7 @@ class AccountScreens extends StatelessWidget {
                     Align(
                       alignment: Alignment.center,
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(GetIt.I<UserMenageStore>().user.name,
                               style: TextStyle(
@@ -47,10 +49,34 @@ class AccountScreens extends StatelessWidget {
                     ),
                     Align(
                       alignment: Alignment.topRight,
+                      child: FlatButton(
+                        child: Text("EDITAR"),
+                        textColor: Colors.purple,
+                        onPressed: () {},
+                      ),
                     )
                   ],
                 ),
               ),
+              Divider(),
+              ListTile(
+                title: Text("Meus anúncios",
+                    style: TextStyle(
+                        color: Colors.purple, fontWeight: FontWeight.w600)),
+                trailing: Icon(Icons.keyboard_arrow_right),
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => MyAds()));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  "Favoritos",
+                  style: TextStyle(
+                      color: Colors.purple, fontWeight: FontWeight.w600),
+                ),
+                trailing: Icon(Icons.keyboard_arrow_right),
+              )
             ],
           ),
         ),
