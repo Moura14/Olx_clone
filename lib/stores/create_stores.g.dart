@@ -38,7 +38,6 @@ mixin _$CreateStores on _CreateStoresBase, Store {
               name: '_CreateStoresBase.adress'))
           .value;
   Computed<num> _$priceComputed;
-
   @override
   num get price => (_$priceComputed ??=
           Computed<num>(() => super.price, name: '_CreateStoresBase.price'))

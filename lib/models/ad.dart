@@ -32,14 +32,14 @@ class Ad {
   Ad();
 
   String id;
-  List images;
+  List images = [];
   String title;
   String description;
 
   Category category;
   Adress adress;
   num price;
-  bool hidePhone;
+  bool hidePhone = false;
 
   AdStatus status = AdStatus.PENDING;
 

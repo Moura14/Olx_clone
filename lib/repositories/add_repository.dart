@@ -146,6 +146,7 @@ class AdRepository {
     }
   }
 
+  //retorna uma lista de anúnios criados
   Future<List<Ad>> getMyAds(User user) async {
     final currentUser = ParseUser('', '', '')..set(keyUserId, user.id);
     final queryBuilder = QueryBuilder<ParseObject>(ParseObject(keyAdTable));

@@ -54,9 +54,7 @@ class AdScreens extends StatelessWidget {
                         color: Colors.grey[500],
                       ),
                       UserPanel(ad),
-                      SizedBox(
-                        height: 120,
-                      )
+                      SizedBox(height: ad.status == AdStatus.PENDING ? 16 : 120)
                     ],
                   ))
             ]),

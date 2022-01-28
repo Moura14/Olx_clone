@@ -7,6 +7,7 @@ import 'package:mobx/mobx.dart';
 import 'package:olx_mobx/components/drawer/custom_drawer.dart';
 import 'package:olx_mobx/components/error_box.dart';
 import 'package:olx_mobx/components/hide_phone_field.dart';
+import 'package:olx_mobx/models/ad.dart';
 import 'package:olx_mobx/screens/create/components/category_field.dart';
 import 'package:olx_mobx/screens/create/components/cep_field.dart';
 import 'package:olx_mobx/screens/create/components/images_field.dart';
@@ -14,14 +15,18 @@ import 'package:olx_mobx/stores/create_stores.dart';
 import 'package:olx_mobx/stores/page_store.dart';
 
 class CreateScreens extends StatefulWidget {
-  const CreateScreens({Key key}) : super(key: key);
+  // const CreateScreens({Key key}) : super(key: key);
+
+  CreateScreens({this.ad});
+  final Ad ad;
 
   @override
-  _CreateScreensState createState() => _CreateScreensState();
+  _CreateScreensState createState() => _CreateScreensState(ad);
 }
 
 class _CreateScreensState extends State<CreateScreens> {
-  final CreateStores createStores = CreateStores();
+  _CreateScreensState(Ad ad) : createStores = CreateStores(ad ?? Ad());
+  final CreateStores createStores;
 
   @override
   void initState() {

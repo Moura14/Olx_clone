@@ -16,12 +16,16 @@ abstract class _MyAdsStoresBase with Store {
   List<Ad> allAds = [];
 
   @computed
+
+  //retorna um anúncio se for igual a ativo
   List<Ad> get activesAds =>
       allAds.where((ad) => ad.status == AdStatus.ACTIVE).toList();
 
+  //retorna um anuncio se for igual a pedente
   List<Ad> get peddingAds =>
       allAds.where((ad) => ad.status == AdStatus.PENDING).toList();
 
+  //retorna se um anúncio for igual a sold
   List<Ad> get soldAds =>
       allAds.where((ad) => ad.status == AdStatus.SOLD).toList();
 

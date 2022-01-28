@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:olx_mobx/screens/myads/components/active_tile.dart';
+import 'package:olx_mobx/screens/myads/components/peding_tile.dart';
 import 'package:olx_mobx/stores/myads_stores.dart';
+
+import 'components/sold_tile.dart';
 
 class MyAds extends StatefulWidget {
   const MyAds({Key key}) : super(key: key);
@@ -53,10 +56,24 @@ class _MyAdsState extends State<MyAds> with SingleTickerProviderStateMixin {
             },
           );
         }),
-        Container(color: Colors.orange),
-        Container(
-          color: Colors.yellow,
-        )
+        Observer(builder: (_) {
+          if (store.peddingAds.isEmpty) return Container();
+          return ListView.builder(
+            itemCount: store.peddingAds.length,
+            itemBuilder: (_, index) {
+              return PedingTile(store.peddingAds[index]);
+            },
+          );
+        }),
+        Observer(builder: (_) {
+          if (store.soldAds.isEmpty) return Container();
+          return ListView.builder(
+            itemCount: store.soldAds.length,
+            itemBuilder: (_, index) {
+              return SoldTile(store.soldAds[index]);
+            },
+          );
+        })
       ]),
     );
   }

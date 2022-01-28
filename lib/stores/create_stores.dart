@@ -6,11 +6,26 @@ import 'package:olx_mobx/models/category.dart';
 import 'package:olx_mobx/repositories/add_repository.dart';
 import 'package:olx_mobx/stores/cep_stores.dart';
 import 'package:olx_mobx/stores/user_menage_stores.dart';
+import 'package:olx_mobx/helpers/extensions.dart';
 part 'create_stores.g.dart';
 
 class CreateStores = _CreateStoresBase with _$CreateStores;
 
 abstract class _CreateStoresBase with Store {
+  _CreateStoresBase(Ad ad) {
+    title = ad.title;
+    description = ad.description;
+    images = ad.images.asObservable();
+    category = ad.category;
+    priceText = ad.price?.formatteMoney();
+    hidePhone = ad.hidePhone;
+
+    if (ad.adress != null) {
+      cepStore = CepStore(ad.adress.cep);
+    } else {
+      cepStore = CepStore(null);
+    }
+  }
   ObservableList images = ObservableList();
 
   @computed
@@ -54,7 +69,7 @@ abstract class _CreateStoresBase with Store {
       return 'Campo obrigatório';
   }
 
-  CepStore cepStore = CepStore();
+  CepStore cepStore;
 
   @computed
   Adress get adress => cepStore.adress;
