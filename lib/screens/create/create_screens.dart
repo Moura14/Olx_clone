@@ -11,6 +11,7 @@ import 'package:olx_mobx/models/ad.dart';
 import 'package:olx_mobx/screens/create/components/category_field.dart';
 import 'package:olx_mobx/screens/create/components/cep_field.dart';
 import 'package:olx_mobx/screens/create/components/images_field.dart';
+import 'package:olx_mobx/screens/myads/myads_screens.dart';
 import 'package:olx_mobx/stores/create_stores.dart';
 import 'package:olx_mobx/stores/page_store.dart';
 
@@ -25,15 +26,25 @@ class CreateScreens extends StatefulWidget {
 }
 
 class _CreateScreensState extends State<CreateScreens> {
-  _CreateScreensState(Ad ad) : createStores = CreateStores(ad ?? Ad());
+  _CreateScreensState(Ad ad)
+      : editing = ad != null,
+        createStores = CreateStores(ad ?? Ad());
   final CreateStores createStores;
+
+  bool editing;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     when((_) => createStores.savedAd, () {
-      GetIt.I<PageStore>().setPage(0);
+      if (editing)
+        Navigator.of(context).pop(true);
+      else {
+        GetIt.I<PageStore>().setPage(0);
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => MyAds(initialPage: 1)));
+      }
     });
   }
 
@@ -45,9 +56,9 @@ class _CreateScreensState extends State<CreateScreens> {
     final contentPadding = const EdgeInsets.fromLTRB(16, 10, 12, 10);
 
     return Scaffold(
-        drawer: CustomDrawer(),
+        drawer: editing ? null : CustomDrawer(),
         appBar: AppBar(
-          title: Text('Criar Anúncio'),
+          title: Text(editing ? "Editar Anúncio" : 'Criar Anúncio'),
           centerTitle: true,
         ),
         body: Container(
@@ -85,6 +96,7 @@ class _CreateScreensState extends State<CreateScreens> {
                         ImagesField(createStores),
                         Observer(builder: (_) {
                           return TextFormField(
+                              initialValue: createStores.title,
                               onChanged: createStores.setTitle,
                               decoration: InputDecoration(
                                   labelText: "Título *",
@@ -94,6 +106,7 @@ class _CreateScreensState extends State<CreateScreens> {
                         }),
                         Observer(builder: (_) {
                           return TextFormField(
+                            initialValue: createStores.description,
                             onChanged: createStores.setDescription,
                             decoration: InputDecoration(
                                 labelText: "Descrição *",
@@ -107,6 +120,7 @@ class _CreateScreensState extends State<CreateScreens> {
                         CepField(createStores),
                         Observer(builder: (_) {
                           return TextFormField(
+                            initialValue: createStores.priceText,
                             onChanged: createStores.setPrice,
                             decoration: InputDecoration(
                                 labelText: "Preço *",

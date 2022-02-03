@@ -32,10 +32,40 @@ mixin _$MyAdsStores on _MyAdsStoresBase, Store {
     });
   }
 
+  final _$loadingAtom = Atom(name: '_MyAdsStoresBase.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$soldAdAsyncAction = AsyncAction('_MyAdsStoresBase.soldAd');
+
+  @override
+  Future<void> soldAd(Ad ad) {
+    return _$soldAdAsyncAction.run(() => super.soldAd(ad));
+  }
+
+  final _$deletAdAsyncAction = AsyncAction('_MyAdsStoresBase.deletAd');
+
+  @override
+  Future<void> deletAd(Ad ad) {
+    return _$deletAdAsyncAction.run(() => super.deletAd(ad));
+  }
+
   @override
   String toString() {
     return '''
 allAds: ${allAds},
+loading: ${loading},
 activesAds: ${activesAds}
     ''';
   }

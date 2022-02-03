@@ -7,7 +7,11 @@ import 'package:olx_mobx/stores/myads_stores.dart';
 import 'components/sold_tile.dart';
 
 class MyAds extends StatefulWidget {
-  const MyAds({Key key}) : super(key: key);
+  //const MyAds({Key key}) : super(key: key);
+
+  MyAds({this.initialPage = 0});
+
+  final int initialPage;
 
   @override
   State<MyAds> createState() => _MyAdsState();
@@ -22,59 +26,67 @@ class _MyAdsState extends State<MyAds> with SingleTickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
+    tabController =
+        TabController(length: 3, vsync: this, initialIndex: widget.initialPage);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.purple,
-        title: Text("Meus Anúncios"),
-        centerTitle: true,
-        bottom: TabBar(
-          controller: tabController,
-          indicatorColor: Colors.orange,
-          tabs: [
-            Tab(
-              child: Text("ATIVOS"),
-            ),
-            Tab(child: Text("PEDENTES")),
-            Tab(
-              child: Text("VENDIDOS"),
-            )
-          ],
+        appBar: AppBar(
+          backgroundColor: Colors.purple,
+          title: Text("Meus Anúncios"),
+          centerTitle: true,
+          bottom: TabBar(
+            controller: tabController,
+            indicatorColor: Colors.orange,
+            tabs: [
+              Tab(
+                child: Text("ATIVOS"),
+              ),
+              Tab(child: Text("PEDENTES")),
+              Tab(
+                child: Text("VENDIDOS"),
+              )
+            ],
+          ),
         ),
-      ),
-      body: TabBarView(controller: tabController, children: [
-        Observer(builder: (_) {
-          if (store.activesAds.isEmpty) return Container();
-          return ListView.builder(
-            itemCount: store.activesAds.length,
-            itemBuilder: (_, index) {
-              return ActiveTile(store.activesAds[index]);
-            },
-          );
-        }),
-        Observer(builder: (_) {
-          if (store.peddingAds.isEmpty) return Container();
-          return ListView.builder(
-            itemCount: store.peddingAds.length,
-            itemBuilder: (_, index) {
-              return PedingTile(store.peddingAds[index]);
-            },
-          );
-        }),
-        Observer(builder: (_) {
-          if (store.soldAds.isEmpty) return Container();
-          return ListView.builder(
-            itemCount: store.soldAds.length,
-            itemBuilder: (_, index) {
-              return SoldTile(store.soldAds[index]);
-            },
-          );
-        })
-      ]),
-    );
+        body: Observer(builder: (_) {
+          if (store.loading)
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(Colors.purple),
+              ),
+            );
+          return TabBarView(controller: tabController, children: [
+            Observer(builder: (_) {
+              if (store.activesAds.isEmpty) return Container();
+              return ListView.builder(
+                itemCount: store.activesAds.length,
+                itemBuilder: (_, index) {
+                  return ActiveTile(store.activesAds[index], store);
+                },
+              );
+            }),
+            Observer(builder: (_) {
+              if (store.peddingAds.isEmpty) return Container();
+              return ListView.builder(
+                itemCount: store.peddingAds.length,
+                itemBuilder: (_, index) {
+                  return PedingTile(store.peddingAds[index]);
+                },
+              );
+            }),
+            Observer(builder: (_) {
+              if (store.soldAds.isEmpty) return Container();
+              return ListView.builder(
+                itemCount: store.soldAds.length,
+                itemBuilder: (_, index) {
+                  return SoldTile(store.soldAds[index]);
+                },
+              );
+            })
+          ]);
+        }));
   }
 }

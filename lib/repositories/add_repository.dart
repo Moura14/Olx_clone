@@ -87,6 +87,8 @@ class AdRepository {
 
       final adObject = ParseObject(keyAdTable);
 
+      if (ad.id != null) adObject.objectId = ad.id;
+
       final parseAcl = ParseACL(owner: parseUser);
       parseAcl.setPublicReadAccess(allowed: true);
       parseAcl.setPublicWriteAccess(allowed: false);
@@ -124,8 +126,10 @@ class AdRepository {
 
     try {
       for (final image in images) {
-        if (image is File) {
-          final parseFile = ParseFile(image, name: path.basename(image.path));
+        if (image is String) {
+          final parseFile = ParseFile(File(path.basename(image)));
+          parseFile.name = path.basename(image);
+          parseFile.url = image;
           final response = await parseFile.save();
           if (!response.success) {
             return Future.error(
@@ -162,6 +166,28 @@ class AdRepository {
       return [];
     } else {
       Future.error(ParseErrors.getDescription(response.error.code));
+    }
+  }
+
+//função para retornar anúcio vendido
+  Future<void> sold(Ad ad) async {
+    final parseObject = ParseObject(keyAdTable)..set(keyAdId, ad.id);
+    parseObject.set(keyAdStatus, AdStatus.SOLD.index);
+
+    final response = await parseObject.save();
+    if (!response.success) {
+      return Future.error(ParseErrors.getDescription(response.error.code));
+    }
+  }
+
+  //função para deletar anúncio vendido
+  Future<void> delete(Ad ad) async {
+    final parseObject = ParseObject(keyAdTable)..set(keyAdId, ad.id);
+    parseObject.set(keyAdStatus, AdStatus.DELETED.index);
+
+    final response = await parseObject.save();
+    if (!response.success) {
+      return Future.error(ParseErrors.getDescription(response.error.code));
     }
   }
 }

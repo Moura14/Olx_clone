@@ -33,7 +33,28 @@ abstract class _MyAdsStoresBase with Store {
     final user = GetIt.I<UserMenageStore>().user;
 
     try {
+      loading = true;
       allAds = await AdRepository().getMyAds(user);
+      loading = false;
     } catch (e) {}
+  }
+
+  @observable
+  bool loading = false;
+
+  void refresh() => _getMyAds();
+
+  @action
+  Future<void> soldAd(Ad ad) async {
+    loading = true;
+    await AdRepository().sold(ad);
+    refresh();
+  }
+
+  @action
+  Future<void> deletAd(Ad ad) async {
+    loading = true;
+    await AdRepository().delete(ad);
+    refresh();
   }
 }

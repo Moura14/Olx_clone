@@ -4,11 +4,13 @@ import 'package:olx_mobx/models/ad.dart';
 import 'package:olx_mobx/helpers/extensions.dart';
 import 'package:olx_mobx/screens/ad/ad_screens.dart';
 import 'package:olx_mobx/screens/create/create_screens.dart';
+import 'package:olx_mobx/stores/myads_stores.dart';
 
 class ActiveTile extends StatelessWidget {
   //const ActiveTile({ Key key }) : super(key: key);
-  ActiveTile(this.ad);
+  ActiveTile(this.ad, this.stores);
   final Ad ad;
+  final MyAdsStores stores;
 
   final List<MenuChoice> choice = [
     MenuChoice(index: 0, title: "Editar", iconData: Icons.edit),
@@ -76,8 +78,10 @@ class ActiveTile extends StatelessWidget {
                       editAd(context);
                       break;
                     case 1:
+                      soldAd(context);
                       break;
                     case 2:
+                      delteAd(context);
                       break;
                   }
                 },
@@ -118,10 +122,59 @@ class ActiveTile extends StatelessWidget {
     );
   }
 
-  Future<void> editAd(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return CreateScreens(ad: ad);
-    }));
+  Future<void> editAd(BuildContext context) async {
+    final success = await Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => CreateScreens(ad: ad),
+    ));
+    if (success != null && success) stores.refresh();
+  }
+
+  void soldAd(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: Text("Vendido"),
+              content: Text("Confirmar a venda de ${ad.title}?"),
+              actions: [
+                FlatButton(
+                  onPressed: Navigator.of(context).pop,
+                  child: Text("Não"),
+                  textColor: Colors.purple,
+                ),
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    stores.soldAd(ad);
+                  },
+                  child: Text("Sim"),
+                  textColor: Colors.red,
+                )
+              ],
+            ));
+  }
+
+  void delteAd(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: Text("Excluir"),
+              content: Text("Confirmar a exclusão de ${ad.title}?"),
+              actions: [
+                FlatButton(
+                  onPressed: Navigator.of(context).pop,
+                  child: Text("Não"),
+                  textColor: Colors.purple,
+                ),
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    stores.deletAd(ad);
+                  },
+                  child: Text("Sim"),
+                  textColor: Colors.red,
+                )
+              ],
+            ));
   }
 }
 
