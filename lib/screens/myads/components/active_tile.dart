@@ -15,7 +15,7 @@ class ActiveTile extends StatelessWidget {
   final List<MenuChoice> choice = [
     MenuChoice(index: 0, title: "Editar", iconData: Icons.edit),
     MenuChoice(index: 1, title: "Já vendi", iconData: Icons.thumb_up),
-    MenuChoice(index: 3, title: "Excluir", iconData: Icons.delete)
+    MenuChoice(index: 2, title: "Excluir", iconData: Icons.delete)
   ];
   @override
   Widget build(BuildContext context) {
@@ -167,8 +167,8 @@ class ActiveTile extends StatelessWidget {
                 ),
                 FlatButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
                     stores.deletAd(ad);
+                    Navigator.of(context).pop();
                   },
                   child: Text("Sim"),
                   textColor: Colors.red,

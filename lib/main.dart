@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         title: 'OLX',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            primaryColor: Colors.purple,
+            //primaryColor: Colors.purple,
             scaffoldBackgroundColor: Colors.purple,
             appBarTheme: AppBarTheme(elevation: 0),
             cursorColor: Colors.orange),

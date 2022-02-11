@@ -2,12 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:olx_mobx/models/ad.dart';
 import 'package:olx_mobx/helpers/extensions.dart ';
+import 'package:olx_mobx/stores/myads_stores.dart';
 
 class SoldTile extends StatelessWidget {
   //const SoldTile({ Key? key }) : super(key: key);
 
-  SoldTile(this.ad);
+  SoldTile(this.ad, this.stores);
   final Ad ad;
+  final MyAdsStores stores;
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +52,34 @@ class SoldTile extends StatelessWidget {
             ),
             Column(children: [
               IconButton(
-                icon: Icon(Icons.delete),
-                color: Colors.purple,
-                iconSize: 20,
-                onPressed: () {},
-              )
+                  icon: Icon(Icons.delete),
+                  color: Colors.purple,
+                  iconSize: 20,
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return AlertDialog(
+                            title: Text("Excluir"),
+                            content: Text("Confirmar a venda de ${ad.title}"),
+                            actions: [
+                              FlatButton(
+                                onPressed: Navigator.of(context).pop,
+                                child: Text("Não"),
+                                textColor: Colors.purple,
+                              ),
+                              FlatButton(
+                                child: Text("Sim"),
+                                textColor: Colors.red,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  stores.deletAd(ad);
+                                },
+                              )
+                            ],
+                          );
+                        });
+                  })
             ])
           ],
         ),

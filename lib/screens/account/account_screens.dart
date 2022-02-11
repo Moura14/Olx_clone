@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:olx_mobx/components/drawer/custom_drawer.dart';
+import 'package:olx_mobx/screens/edit_account/edit_account_screens.dart';
 import 'package:olx_mobx/screens/myads/myads_screens.dart';
 import 'package:olx_mobx/stores/user_menage_stores.dart';
 
@@ -52,7 +53,10 @@ class AccountScreens extends StatelessWidget {
                       child: FlatButton(
                         child: Text("EDITAR"),
                         textColor: Colors.purple,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => EditAccountScreen()));
+                        },
                       ),
                     )
                   ],
